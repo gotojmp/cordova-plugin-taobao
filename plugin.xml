@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="cordova-plugin-taobao"
-        version="1.1.1-dev">
+        version="0.0.1">
 
     <name>Taobao</name>
     <description>Cordova Taobao Plugin</description>
