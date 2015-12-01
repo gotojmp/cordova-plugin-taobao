@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+-->
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-taobao"
+        version="1.1.1-dev">
+
+    <name>Taobao</name>
+    <description>Cordova Taobao Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,taobao</keywords>
+    <repo>https://cordova-plugin-taobao.git</repo>
+    <issue>https://</issue>
+
+    <engines>
+        <engine name="cordova" version=">=3.1.0" />
+    </engines>
+
+    <!-- ios -->
+    <platform name="ios">
+        <js-module src="www/taobao.js" name="taobao">
+            <clobbers target="cordova.taobao.show" />
+        </js-module>
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="Taobao">
+                <param name="ios-package" value="CDVTaobao" />
+            </feature>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+            <array>
+                <dict>
+                    <key>CFBundleURLName</key>
+                    <string>com.taobao.taesdk</string>
+                    <key>CFBundleURLSchemes</key>
+                    <array>
+                        <string>tbopen23271834</string>
+                    </array>
+                </dict>
+            </array>
+        </config-file>
+
+        <header-file src="src/ios/CDVtaobao.h" />
+        <source-file src="src/ios/CDVtaobao.m" />
+
+        <resource-file src="src/ios/sdk/yw_1222.jpg" />
+        <resource-file src="src/ios/sdk/AlipaySDK.bundle" />
+        <resource-file src="src/ios/sdk/Tae.bundle" />
+        <resource-file src="src/ios/sdk/WXOUIModuleResources.bundle" />
+        <resource-file src="src/ios/sdk/WXOpenIMSDKResource.bundle" />
+
+        <framework src="src/ios/sdk/ALBBFullSecurityGuard.framework" />
+        <framework src="src/ios/sdk/ALBBLoginSDK.framework" />
+        <framework src="src/ios/sdk/ALBBOpenAccount.framework" />
+        <framework src="src/ios/sdk/ALBBRpcPlugin.framework" />
+        <framework src="src/ios/sdk/ALBBTBOpenPlugin.framework" />
+        <framework src="src/ios/sdk/ALBBTradeSDK.framework" />
+        <framework src="src/ios/sdk/AlipaySDK.framework" />
+        <framework src="src/ios/sdk/SecurityGuardSDK.framework" />
+        <framework src="src/ios/sdk/TAESDK.framework" />
+        <framework src="src/ios/sdk/TAEWXAdapterForTaobaoFMWK.framework" />
+        <framework src="src/ios/sdk/TBAppLinkSDK.framework" />
+        <framework src="src/ios/sdk/UTDID.framework" />
+        <framework src="src/ios/sdk/UTMini.framework" />
+        <framework src="src/ios/sdk/WXOUIModule.framework" />
+        <framework src="src/ios/sdk/WXOpenIMSDKFMWK.framework" />
+        <framework src="src/ios/sdk/YWExtensionForCustomerServiceFMWK.framework" />
+
+        <framework src="libstdc++.6.dylib" />
+        <framework src="libz.dylib" />
+        <framework src="CoreGraphics.framework" />
+        <framework src="CoreTelephony.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="Security.framework" />
+        <framework src="MobileCoreServices.framework" />
+        <framework src="AssetsLibrary.framework" />
+        <framework src="ImageIO.framework" />
+        <framework src="CoreData.framework" />
+        <framework src="CoreLocation.framework" />
+        <framework src="CFNetwork.framework" />
+        <framework src="UIKit.framework" />
+        <framework src="Foundation.framework" />
+    </platform>
+
+    <!-- android -->
+    <platform name="android">
+        <js-module src="www/taobao.js" name="taobao">
+            <clobbers target="cordova.taobao.open" />
+            <clobbers target="window.open" />
+        </js-module>
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="taobao">
+                <param name="android-package" value="org.apache.cordova.taobao.taobao"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/taobao.java" target-dir="src/org/apache/cordova/taobao" />
+        <source-file src="src/android/taobaoDialog.java" target-dir="src/org/apache/cordova/taobao" />
+        <source-file src="src/android/InAppChromeClient.java" target-dir="src/org/apache/cordova/taobao" />
+
+        <!--  drawable src/android/resources -->
+        <resource-file src="src/android/res/drawable-hdpi/ic_action_next_item.png" target="res/drawable-hdpi/ic_action_next_item.png" />
+        <resource-file src="src/android/res/drawable-mdpi/ic_action_next_item.png" target="res/drawable-mdpi/ic_action_next_item.png" />
+        <resource-file src="src/android/res/drawable-xhdpi/ic_action_next_item.png" target="res/drawable-xhdpi/ic_action_next_item.png" />
+        <resource-file src="src/android/res/drawable-xxhdpi/ic_action_next_item.png" target="res/drawable-xxhdpi/ic_action_next_item.png" />
+
+        <resource-file src="src/android/res/drawable-hdpi/ic_action_previous_item.png" target="res/drawable-hdpi/ic_action_previous_item.png" />
+        <resource-file src="src/android/res/drawable-mdpi/ic_action_previous_item.png" target="res/drawable-mdpi/ic_action_previous_item.png" />
+        <resource-file src="src/android/res/drawable-xhdpi/ic_action_previous_item.png" target="res/drawable-xhdpi/ic_action_previous_item.png" />
+        <resource-file src="src/android/res/drawable-xxhdpi/ic_action_previous_item.png" target="res/drawable-xxhdpi/ic_action_previous_item.png" />
+
+        <resource-file src="src/android/res/drawable-hdpi/ic_action_remove.png" target="res/drawable-hdpi/ic_action_remove.png" />
+        <resource-file src="src/android/res/drawable-mdpi/ic_action_remove.png" target="res/drawable-mdpi/ic_action_remove.png" />
+        <resource-file src="src/android/res/drawable-xhdpi/ic_action_remove.png" target="res/drawable-xhdpi/ic_action_remove.png" />
+        <resource-file src="src/android/res/drawable-xxhdpi/ic_action_remove.png" target="res/drawable-xxhdpi/ic_action_remove.png" />
+
+    </platform>
+
+</plugin>
