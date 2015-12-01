@@ -67,22 +67,22 @@
         <resource-file src="lib/ios/WXOUIModuleResources.bundle" />
         <resource-file src="lib/ios/WXOpenIMSDKResource.bundle" />
 
-        <framework src="lib/ios/ALBBFullSecurityGuard.framework" />
-        <framework src="lib/ios/ALBBLoginSDK.framework" />
-        <framework src="lib/ios/ALBBOpenAccount.framework" />
-        <framework src="lib/ios/ALBBRpcPlugin.framework" />
-        <framework src="lib/ios/ALBBTBOpenPlugin.framework" />
-        <framework src="lib/ios/ALBBTradeSDK.framework" />
-        <framework src="lib/ios/AlipaySDK.framework" />
-        <framework src="lib/ios/SecurityGuardSDK.framework" />
-        <framework src="lib/ios/TAESDK.framework" />
-        <framework src="lib/ios/TAEWXAdapterForTaobaoFMWK.framework" />
-        <framework src="lib/ios/TBAppLinkSDK.framework" />
-        <framework src="lib/ios/UTDID.framework" />
-        <framework src="lib/ios/UTMini.framework" />
-        <framework src="lib/ios/WXOUIModule.framework" />
-        <framework src="lib/ios/WXOpenIMSDKFMWK.framework" />
-        <framework src="lib/ios/YWExtensionForCustomerServiceFMWK.framework" />
+        <framework custom="true" src="lib/ios/ALBBFullSecurityGuard.framework" />
+        <framework custom="true" src="lib/ios/ALBBLoginSDK.framework" />
+        <framework custom="true" src="lib/ios/ALBBOpenAccount.framework" />
+        <framework custom="true" src="lib/ios/ALBBRpcPlugin.framework" />
+        <framework custom="true" src="lib/ios/ALBBTBOpenPlugin.framework" />
+        <framework custom="true" src="lib/ios/ALBBTradeSDK.framework" />
+        <framework custom="true" src="lib/ios/AlipaySDK.framework" />
+        <framework custom="true" src="lib/ios/SecurityGuardSDK.framework" />
+        <framework custom="true" src="lib/ios/TAESDK.framework" />
+        <framework custom="true" src="lib/ios/TAEWXAdapterForTaobaoFMWK.framework" />
+        <framework custom="true" src="lib/ios/TBAppLinkSDK.framework" />
+        <framework custom="true" src="lib/ios/UTDID.framework" />
+        <framework custom="true" src="lib/ios/UTMini.framework" />
+        <framework custom="true" src="lib/ios/WXOUIModule.framework" />
+        <framework custom="true" src="lib/ios/WXOpenIMSDKFMWK.framework" />
+        <framework custom="true" src="lib/ios/YWExtensionForCustomerServiceFMWK.framework" />
 
         <framework src="libstdc++.6.dylib" />
         <framework src="libz.dylib" />
