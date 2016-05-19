@@ -21,28 +21,53 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="cordova-plugin-taobao"
         version="0.0.1">
-
     <name>Taobao</name>
     <description>Cordova Taobao Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,taobao</keywords>
-    <repo>https://cordova-plugin-taobao.git</repo>
-    <issue>https://</issue>
+    <repo>https://github.com/gotojmp/cordova-plugin-taobao.git</repo>
+    <issue>https://github.com/gotojmp/cordova-plugin-taobao/issues</issue>
+
+    <preference name="TAOBAOAPPKEY" />
+    <preference name="TAOKEPID" />
+    <preference name="TAOBAO_MEDIA_NS" />
+    <!--<preference name="UMENG_APPKEY" />-->
+    <preference name="WX_APPID" />
+    <preference name="WX_APPSECRET" />
+    <preference name="WX_APPURL" />
+    <preference name="QQ_APPID" />
+    <preference name="QQ_APPKEY" />
+    <preference name="QQ_APPURL" />
+    <preference name="WB_APPKEY" />
+    <preference name="WB_CALLBACKURL" />
 
     <engines>
         <engine name="cordova" version=">=3.1.0" />
     </engines>
 
+    <js-module src="www/taobao.js" name="taobao">
+        <clobbers target="window.Taobao" />
+    </js-module>
+
     <!-- ios -->
     <platform name="ios">
-        <js-module src="www/taobao.js" name="taobao">
-            <clobbers target="cordova.taobao.show" />
-        </js-module>
-
         <config-file target="config.xml" parent="/*">
             <feature name="Taobao">
                 <param name="ios-package" value="CDVTaobao" />
+                <param name="onload" value="true" />
             </feature>
+            <preference name="TAOBAOAPPKEY" value="$TAOBAOAPPKEY" />
+            <preference name="TAOKEPID" value="$TAOKEPID" />
+            <preference name="TAOBAO_MEDIA_NS" value="$TAOBAO_MEDIA_NS" />
+            <!--<preference name="UMENG_APPKEY" value="$UMENG_APPKEY" />-->
+            <preference name="WX_APPID" value="$WX_APPID" />
+            <preference name="WX_APPSECRET" value="$WX_APPSECRET" />
+            <preference name="WX_APPURL" value="$WX_APPURL" />
+            <preference name="QQ_APPID" value="$QQ_APPID" />
+            <preference name="QQ_APPKEY" value="$QQ_APPKEY" />
+            <preference name="QQ_APPURL" value="$QQ_APPURL" />
+            <preference name="WB_APPKEY" value="$WB_APPKEY" />
+            <preference name="WB_CALLBACKURL" value="$WB_CALLBACKURL" />
         </config-file>
 
         <config-file target="*-Info.plist" parent="CFBundleURLTypes">
@@ -52,37 +77,37 @@
                     <string>com.taobao.taesdk</string>
                     <key>CFBundleURLSchemes</key>
                     <array>
-                        <string>tbopen23271834</string>
+                        <string>tbopen$TAOBAOAPPKEY</string>
                     </array>
                 </dict>
             </array>
         </config-file>
 
-        <header-file src="src/ios/CDVtaobao.h" />
-        <source-file src="src/ios/CDVtaobao.m" />
+        <header-file src="src/ios/CDVTaobao.h" />
+        <source-file src="src/ios/CDVTaobao.m" />
 
+<!--
         <resource-file src="lib/ios/yw_1222.jpg" />
         <resource-file src="lib/ios/AlipaySDK.bundle" />
-        <resource-file src="lib/ios/Tae.bundle" />
-        <resource-file src="lib/ios/WXOUIModuleResources.bundle" />
-        <resource-file src="lib/ios/WXOpenIMSDKResource.bundle" />
+        <resource-file src="lib/ios/baichuan.bundle" />
 
-        <framework custom="true" src="lib/ios/ALBBFullSecurityGuard.framework" />
-        <framework custom="true" src="lib/ios/ALBBLoginSDK.framework" />
-        <framework custom="true" src="lib/ios/ALBBOpenAccount.framework" />
-        <framework custom="true" src="lib/ios/ALBBRpcPlugin.framework" />
-        <framework custom="true" src="lib/ios/ALBBTBOpenPlugin.framework" />
-        <framework custom="true" src="lib/ios/ALBBTradeSDK.framework" />
-        <framework custom="true" src="lib/ios/AlipaySDK.framework" />
-        <framework custom="true" src="lib/ios/SecurityGuardSDK.framework" />
-        <framework custom="true" src="lib/ios/TAESDK.framework" />
-        <framework custom="true" src="lib/ios/TAEWXAdapterForTaobaoFMWK.framework" />
-        <framework custom="true" src="lib/ios/TBAppLinkSDK.framework" />
-        <framework custom="true" src="lib/ios/UTDID.framework" />
-        <framework custom="true" src="lib/ios/UTMini.framework" />
-        <framework custom="true" src="lib/ios/WXOUIModule.framework" />
-        <framework custom="true" src="lib/ios/WXOpenIMSDKFMWK.framework" />
-        <framework custom="true" src="lib/ios/YWExtensionForCustomerServiceFMWK.framework" />
+        <framework src="lib/ios/ALBBFullSecurityGuard.framework" custom="true" weak="true" />
+        <framework src="lib/ios/ALBBLoginSDK.framework" custom="true" weak="true" />
+        <framework src="lib/ios/ALBBOpenAccount.framework" custom="true" weak="true" />
+        <framework src="lib/ios/ALBBRpcPlugin.framework" custom="true" weak="true" />
+        <framework src="lib/ios/ALBBTBOpenPlugin.framework" custom="true" weak="true" />
+        <framework src="lib/ios/ALBBTradeSDK.framework" custom="true" weak="true" />
+        <framework src="lib/ios/AlipaySDK.framework" custom="true" weak="true" />
+        <framework src="lib/ios/SecurityGuardSDK.framework" custom="true" weak="true" />
+        <framework src="lib/ios/TAESDK.framework" custom="true" weak="true" />
+        <framework src="lib/ios/TAEWXAdapterForTaobaoFMWK.framework" custom="true" weak="true" />
+        <framework src="lib/ios/TBAppLinkSDK.framework" custom="true" weak="true" />
+        <framework src="lib/ios/UTDID.framework" custom="true" weak="true" />
+        <framework src="lib/ios/UTMini.framework" custom="true" weak="true" />
+        <framework src="lib/ios/WXOUIModule.framework" custom="true" weak="true" />
+        <framework src="lib/ios/WXOpenIMSDKFMWK.framework" custom="true" weak="true" />
+        <framework src="lib/ios/YWExtensionForCustomerServiceFMWK.framework" custom="true" weak="true" />
+-->
 
         <framework src="libstdc++.6.dylib" />
         <framework src="libz.dylib" />
@@ -102,36 +127,30 @@
 
     <!-- android -->
     <platform name="android">
-        <js-module src="www/taobao.js" name="taobao">
-            <clobbers target="cordova.taobao.open" />
-            <clobbers target="window.open" />
-        </js-module>
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="taobao">
-                <param name="android-package" value="org.apache.cordova.taobao.taobao"/>
+            <feature name="Taobao">
+                <param name="android-package" value="com.gotojmp.cordova.taobao.Taobao"/>
+                <param name="onload" value="true" />
             </feature>
+            <preference name="TAOBAOAPPKEY" value="$TAOBAOAPPKEY" />
+            <preference name="TAOKEPID" value="$TAOKEPID" />
+            <preference name="TAOBAO_MEDIA_NS" value="$TAOBAO_MEDIA_NS" />
+            <!--<preference name="UMENG_APPKEY" value="$UMENG_APPKEY" />-->
+            <preference name="WX_APPID" value="$WX_APPID" />
+            <preference name="WX_APPSECRET" value="$WX_APPSECRET" />
+            <preference name="WX_APPURL" value="$WX_APPURL" />
+            <preference name="QQ_APPID" value="$QQ_APPID" />
+            <preference name="QQ_APPKEY" value="$QQ_APPKEY" />
+            <preference name="QQ_APPURL" value="$QQ_APPURL" />
+            <preference name="WB_APPKEY" value="$WB_APPKEY" />
+            <preference name="WB_CALLBACKURL" value="$WB_CALLBACKURL" />
         </config-file>
 
-        <source-file src="src/android/taobao.java" target-dir="src/org/apache/cordova/taobao" />
-        <source-file src="src/android/taobaoDialog.java" target-dir="src/org/apache/cordova/taobao" />
-        <source-file src="src/android/InAppChromeClient.java" target-dir="src/org/apache/cordova/taobao" />
+        <framework src="lib/android" custom="true" />
 
-        <!--  drawable src/android/resources -->
-        <resource-file src="src/android/res/drawable-hdpi/ic_action_next_item.png" target="res/drawable-hdpi/ic_action_next_item.png" />
-        <resource-file src="src/android/res/drawable-mdpi/ic_action_next_item.png" target="res/drawable-mdpi/ic_action_next_item.png" />
-        <resource-file src="src/android/res/drawable-xhdpi/ic_action_next_item.png" target="res/drawable-xhdpi/ic_action_next_item.png" />
-        <resource-file src="src/android/res/drawable-xxhdpi/ic_action_next_item.png" target="res/drawable-xxhdpi/ic_action_next_item.png" />
-
-        <resource-file src="src/android/res/drawable-hdpi/ic_action_previous_item.png" target="res/drawable-hdpi/ic_action_previous_item.png" />
-        <resource-file src="src/android/res/drawable-mdpi/ic_action_previous_item.png" target="res/drawable-mdpi/ic_action_previous_item.png" />
-        <resource-file src="src/android/res/drawable-xhdpi/ic_action_previous_item.png" target="res/drawable-xhdpi/ic_action_previous_item.png" />
-        <resource-file src="src/android/res/drawable-xxhdpi/ic_action_previous_item.png" target="res/drawable-xxhdpi/ic_action_previous_item.png" />
-
-        <resource-file src="src/android/res/drawable-hdpi/ic_action_remove.png" target="res/drawable-hdpi/ic_action_remove.png" />
-        <resource-file src="src/android/res/drawable-mdpi/ic_action_remove.png" target="res/drawable-mdpi/ic_action_remove.png" />
-        <resource-file src="src/android/res/drawable-xhdpi/ic_action_remove.png" target="res/drawable-xhdpi/ic_action_remove.png" />
-        <resource-file src="src/android/res/drawable-xxhdpi/ic_action_remove.png" target="res/drawable-xxhdpi/ic_action_remove.png" />
-
+        <source-file src="src/android/Taobao.java" target-dir="src/com/gotojmp/cordova/taobao" />
+        <source-file src="src/android/TaobaoMessageReceiver.java" target-dir="src/com/gotojmp/cordova/taobao" />
     </platform>
 
 </plugin>
+

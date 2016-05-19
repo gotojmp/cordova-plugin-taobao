@@ -21,9 +21,60 @@
 
 var exec = require('cordova/exec');
 
+var _okCb = function () { console.log('ok'); };
+var _errCb = function () { console.log('error'); };
 module.exports = {
-    show: function () {
-      exec(null, null, "Taobao", "show", []);
+    useNativeTaobao: function (isNative) {
+        exec(null, null, "Taobao", "useNativeTaobao", [!!isNative]);
+    },
+    logout: function (okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "logout", []);
+    },
+    showLogin: function (okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "showLogin", []);
+    },
+    showItemDetailByItemId: function (itemId, itemType, okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "showItemDetailByItemId", [itemId, itemType]);
+    },
+    showTaoKeItemDetailByItemId: function (itemId, itemType, okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "showTaoKeItemDetailByItemId", [itemId, itemType]);
+    },
+    showCart: function () {
+        exec(null, null, "Taobao", "showCart", []);
+    },
+    showOrder: function () {
+        exec(null, null, "Taobao", "showOrder", []);
+    },
+    showPage: function (url, okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "showPage", [url]);
+    },
+    openLoginBox: function (okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "openLoginBox", []);
+    },
+    uploadImage: function (imageId, dir, fileName, imgType, okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "uploadImage", [imageId, dir, fileName, imgType]);
+    },
+    shareTo: function (platform, text, imgUrl, title, url, mode, okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "shareTo", [platform, text, imgUrl, title, url, mode]);
+    },
+    fireNotificationReceive: function () {
+        cordova.fireWindowEvent('Taobao.notificationReceive');
     }
 };
 
