@@ -73,8 +73,21 @@ module.exports = {
         errCb = errCb || _errCb;
         exec(okCb, errCb, "Taobao", "shareTo", [platform, text, imgUrl, title, url, mode]);
     },
+    bindAccount: function (account, okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "bindAccount", [account]);
+    },
+    unbindAccount: function (account, okCb, errCb) {
+        okCb = okCb || _okCb;
+        errCb = errCb || _errCb;
+        exec(okCb, errCb, "Taobao", "unbindAccount", [account]);
+    },
     fireNotificationReceive: function () {
         cordova.fireWindowEvent('Taobao.notificationReceive');
+    },
+    fireMsgReceive: function (msg) {
+        cordova.fireWindowEvent('Taobao.msgReceive', {msg:msg});
     }
 };
 

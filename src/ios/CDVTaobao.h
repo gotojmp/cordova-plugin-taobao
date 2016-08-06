@@ -22,6 +22,7 @@
 
 #import <ALBBSDK/ALBBSDK.h>
 #import <ALBBPush/CloudPushSDK.h>
+#import <ALBBPush/CCPSysMessage.h>
 #import <ALBBTradeSDK/ALBBTradeService.h>
 #import <ALBBTradeSDK/ALBBItemService.h>
 #import <ALBBTradeSDK/ALBBCartService.h>

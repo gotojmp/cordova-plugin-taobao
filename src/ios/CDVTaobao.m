@@ -21,6 +21,10 @@
 
 #pragma mark CDVTaobao
 
+@interface CDVTaobao()<UMSocialUIDelegate> {
+}
+@end
+
 @implementation CDVTaobao
 
 - (void)pluginInitialize
@@ -28,6 +32,9 @@
     [[ALBBSDK sharedInstance] setDebugLogOpen:NO];
     [[ALBBSDK sharedInstance] setUseTaobaoNativeDetail:NO];
     //[CloudPushSDK setEnvironment:CCPSDKEnvironmentRelease];
+    
+    [self registerAPNS];
+    [self registerMsgReceive];
     
     [[ALBBSDK sharedInstance] asyncInit:^{
         NSLog(@"初始化成功");
@@ -37,15 +44,46 @@
     
     [self initServices];
     
-    [self registerAPNS];
-    [self registerMsgReceive];
-    
     [self setSSOAppKey];
 
     //[self initSSOLoginHandler];
     
     [self initTaobaoTrade];
 }
+
+- (void)bindAccount:(CDVInvokedUrlCommand*)command
+{
+    NSString* currentCallbackId = command.callbackId;
+    __weak __typeof(&*self)me = self;
+    
+    NSString* account = [command.arguments objectAtIndex:0];
+    [CloudPushSDK bindAccount:account withCallback:^(BOOL success){
+        if (success) {
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            [me.commandDelegate sendPluginResult:pluginResult callbackId:currentCallbackId];
+        } else {
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+            [me.commandDelegate sendPluginResult:pluginResult callbackId:currentCallbackId];
+        }
+    }];
+}
+- (void)unbindAccount:(CDVInvokedUrlCommand*)command
+{
+    NSString* currentCallbackId = command.callbackId;
+    __weak __typeof(&*self)me = self;
+    
+    NSString* account = [command.arguments objectAtIndex:0];
+    [CloudPushSDK unbindAccount:account withCallback:^(BOOL success){
+        if (success) {
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            [me.commandDelegate sendPluginResult:pluginResult callbackId:currentCallbackId];
+        } else {
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+            [me.commandDelegate sendPluginResult:pluginResult callbackId:currentCallbackId];
+        }
+    }];
+}
+
 
 - (void)initServices
 {
@@ -178,7 +216,11 @@
     __weak __typeof(&*self)me = self;
     
     int platform = [[command.arguments objectAtIndex:0] intValue];//0-微信朋友圈，1-微信好友，2-新浪微博，3-QQ空间，4-QQ好友
-    if (platform < 0 || platform > 4) return;
+    if (platform < 0 || platform > 4) {
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.currentCallbackId_share];
+        return;
+    }
     NSString* text = [command.arguments objectAtIndex:1];
     NSString* imgUrl = [command.arguments objectAtIndex:2];
     NSString* title = [command.arguments objectAtIndex:3];
@@ -259,7 +301,6 @@
 {
     self.currentCallbackId_login = command.callbackId;
     __weak __typeof(&*self)me = self;
-    
     id<ALBBOpenAccountUIService> service = [[ALBBSDK sharedInstance] getService:@protocol(ALBBOpenAccountUIService)];
     [service presentLoginViewController:self.viewController success:^(ALBBOpenAccountSession *currentSession) {
         //NSLog([NSString stringWithFormat:@"token：%@ \n user：%@", [currentSession getAuthToken], [currentSession getUser]]);
@@ -277,14 +318,19 @@
     }ssoCallback:^(ALBBSSOResponseEntity *response, ALBBOpenAccountSession *session) {
         //如果没有集成三方登录SDK ，这里回调不需要处理
         //NSLog([NSString stringWithFormat:@"code: %u \n message: %@ \n data: %@ \n user:%@", response.responseCode, response.message, response.data,[session getUser]]);
-        NSDictionary* loginResult = @{
-                                      @"type": @"oauth",
-                                      @"token": [session getAuthToken],
-                                      @"account": [session getUser].accountId,
-                                      @"data": response.data,
-                                      };
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:loginResult];
-        [me.commandDelegate sendPluginResult:pluginResult callbackId:me.currentCallbackId_login];
+        if (response.responseCode == 200) {
+            NSDictionary* loginResult = @{
+                                          @"type": @"oauth",
+                                          @"token": [session getAuthToken],
+                                          @"account": [session getUser].accountId,
+                                          @"data": response.data,
+                                          };
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:loginResult];
+            [me.commandDelegate sendPluginResult:pluginResult callbackId:me.currentCallbackId_login];
+        } else {
+            CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+            [me.commandDelegate sendPluginResult:pluginResult callbackId:me.currentCallbackId_login];
+        }
     }];
 }
 
@@ -327,6 +373,7 @@
 // 通知统计回调，统计打开率
 - (void)onRemoteReceive:(NSNotification *)notification
 {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0; //clear badge number
     NSDictionary* userInfo = [notification object];
     NSLog(@"user info : %@", userInfo);
     [self.commandDelegate evalJs:@"Taobao.fireNotificationReceive();"];
@@ -544,6 +591,9 @@
 #pragma mark 注册接收CloudChannel 推送下来的消息
 - (void)registerMsgReceive {
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onChannelOpened:) name:@"CCPDidChannelConnectedSuccess"
+                                               object:nil]; // 注册
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onMessageReceived:)
                                                  name:@"CCPDidReceiveMessageNotification"
                                                object:nil]; // 注册
@@ -551,9 +601,22 @@
 // 推送下来的消息抵达的处理
 - (void)onMessageReceived:(NSNotification *)notification {
     NSData* data = [notification object];
-    NSString *message = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", message);
+    NSString* message = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    message = [message stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\0"]];
+    message = [message stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString* js = [NSString stringWithFormat:@"Taobao.fireMsgReceive('%@');",message];
+    if(![NSThread isMainThread])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.commandDelegate evalJs:js];
+        });
+    } else {
+        [self.commandDelegate evalJs:js];
+    }
 }
-
+// 通道打开通知
+- (void)onChannelOpened:(NSNotification *)notification {
+    NSLog(@"channel open ok!!!!!!!!!!!!!!!!!!!!!!!!!");
+}
 
 @end

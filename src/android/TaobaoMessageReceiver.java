@@ -7,6 +7,7 @@ import com.alibaba.sdk.android.callback.InitResultCallback;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.notification.CPushMessage;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -31,5 +32,11 @@ public class TaobaoMessageReceiver extends MessageReceiver {
         protected void onNotificationOpened(Context context, String title, String body, String extraMap) {
                 super.onNotificationOpened(context, title, body, extraMap);
                 Taobao.onNotificationOpen();
+        }
+
+        @Override
+        protected void onMessage(Context context, CPushMessage message) {
+                super.onMessage(context, message);
+                Taobao.onMessage(message.getContent());
         }
 }
