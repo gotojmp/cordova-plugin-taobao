@@ -39,6 +39,7 @@
     <preference name="QQ_APPKEY" />
     <preference name="QQ_APPURL" />
     <preference name="WB_APPKEY" />
+    <preference name="WB_APPSECRET" />
     <preference name="WB_CALLBACKURL" />
 
     <engines>
@@ -67,6 +68,7 @@
             <preference name="QQ_APPKEY" value="$QQ_APPKEY" />
             <preference name="QQ_APPURL" value="$QQ_APPURL" />
             <preference name="WB_APPKEY" value="$WB_APPKEY" />
+            <preference name="WB_APPSECRET" value="$WB_APPSECRET" />
             <preference name="WB_CALLBACKURL" value="$WB_CALLBACKURL" />
         </config-file>
 
@@ -143,6 +145,7 @@
             <preference name="QQ_APPKEY" value="$QQ_APPKEY" />
             <preference name="QQ_APPURL" value="$QQ_APPURL" />
             <preference name="WB_APPKEY" value="$WB_APPKEY" />
+            <preference name="WB_APPSECRET" value="$WB_APPSECRET" />
             <preference name="WB_CALLBACKURL" value="$WB_CALLBACKURL" />
         </config-file>
 

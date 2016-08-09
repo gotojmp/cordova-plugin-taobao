@@ -68,6 +68,7 @@ public class Taobao extends CordovaPlugin {
         private static final String QQAPPKEY = "qq_appkey";
         private static final String QQAPPURL = "qq_appurl";
         private static final String WBAPPKEY = "wb_appkey";
+        private static final String WBAPPSECRET = "wb_appsecret";
         private static final String WBCALLBACKURL = "wb_callbackurl";
 
         private static Taobao instance;
@@ -146,12 +147,13 @@ public class Taobao extends CordovaPlugin {
                 String qqAppKey = preferences.getString(QQAPPKEY, "");
                 String qqAppUrl = preferences.getString(QQAPPURL, "");
                 String wbAppKey = preferences.getString(WBAPPKEY, "");
+                String wbAppSecret = preferences.getString(WBAPPSECRET, "");
                 String wbCallbackUrl = preferences.getString(WBCALLBACKURL, "");
 
                 OauthService oauthService = AlibabaSDK.getService(OauthService.class);
                 oauthService.addAppCredential(OauthPlateform.WEIXIN, wxAppId, wxAppSecret);
                 oauthService.addAppCredential(OauthPlateform.QQ, qqAppId, qqAppKey);
-                oauthService.addAppCredential(OauthPlateform.WEIBO, wbAppKey, "");
+                oauthService.addAppCredential(OauthPlateform.WEIBO, wbAppKey, wbAppSecret);
         }
 
         protected boolean shareTo(JSONArray args, CallbackContext callbackContext) {
